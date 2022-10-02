@@ -24,6 +24,14 @@ class HousingwebscraperSpiderMiddleware(object):
         s = cls()
         crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
         return s
+    class MessinfoAdmin(admin.ModelAdmin):
+    model = Messinfo
+    fieldsets = [
+        ('mess_option', {'fields': ['mess_option']}),
+        ('student_id', {'fields': ['student_id']}),
+
+    ]
+    list_display = ('student_id', 'mess_option')
 
     def process_spider_input(self, response, spider):
         # Called for each response that goes through the spider
@@ -93,6 +101,15 @@ class HousingwebscraperDownloaderMiddleware(object):
         # - return a Request object
         # - or raise IgnoreRequest
         return response
+    from django import forms
+
+from .models import Mess_minutes
+
+
+class MinuteForm(forms.ModelForm):
+    class Meta:
+        model = Mess_minutes
+        fields = ('meeting_date', 'mess_minutes')
 
     def process_exception(self, request, exception, spider):
         # Called when a download handler or a process_request()
@@ -103,6 +120,9 @@ class HousingwebscraperDownloaderMiddleware(object):
         # - return a Response object: stops process_exception() chain
         # - return a Request object: stops process_exception() chain
         pass
+    def process_rest(self, request, spider):
+        
+        return None
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
