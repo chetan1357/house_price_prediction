@@ -51,3 +51,9 @@ class MultiCSVItemPipeline(object):
         if what in set(self.SaveTypes):
             self.exporters[what].export_item(item)
         return item
+    
+     def remove_item(self, item, spider):
+        what = item_type(item)
+        if what in set(self.SaveTypes):
+            self.exporters[what].export_item(item)
+        return item
